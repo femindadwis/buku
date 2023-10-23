@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\BukuDataTables;
 use App\Models\Buku;
 use App\Models\Penerbit;
 use illuminate\Support\Str;
@@ -16,13 +17,12 @@ class BukuController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(){
+    public function index(BukuDataTables $dataTable){
 
-        $data = [
-            'buku' => Buku::all(),
-        ];
-
-        return view ('buku/index', $data);
+        return $dataTable->render('buku/index', [
+            'title' => 'List Buku',
+            'datatable' => true
+        ]);
     }
 
     public function create()

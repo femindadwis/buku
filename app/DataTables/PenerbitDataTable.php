@@ -2,10 +2,8 @@
 
 namespace App\DataTables;
 
-use App\Models\Buku;
-use App\Models\BukuDataTable;
+use App\Models\Penerbit;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
-use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
@@ -14,7 +12,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class BukuDataTables extends DataTable
+class PenerbitDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -26,18 +24,13 @@ class BukuDataTables extends DataTable
         return datatables()
             ->eloquent($query)
             ->addIndexColumn()
-            ->editColumn('foto', function($data) {
-                if ($data->foto) {
-                    return '<img src="'. url(Storage::url($data->foto)) .'" class="" style="width:50px;"></img>';
-                }
-            })
             ->addColumn('action', function($data) {
                 return "
                     <div class='d-flex justify-content-center align-items-start'>
-                        <a href='" . route('buku.edit', $data->id) . "' class='btn btn-sm btn-warning me-1' style='padding: 8px 12px;font-size: 14px;font-weight: normal;'>
+                        <a href='" . route('penerbit.edit', $data->id) . "' class='btn btn-sm btn-warning me-1' style='padding: 8px 12px;font-size: 14px;font-weight: normal;'>
                         <i class='mdi mdi-pencil align-middle font-size-12'></i> Edit
                         </a>
-                        <form action='" . route('buku.destroy', $data->id) . "' method='post' style='display: inline-block;'>
+                        <form action='" . route('penerbit.destroy', $data->id) . "' method='post' style='display: inline-block;'>
                             " . csrf_field() . "
                             " . method_field('DELETE') . "
                             <button type='button' class='btn btn-sm btn-danger buttonDeletion'>
@@ -47,14 +40,13 @@ class BukuDataTables extends DataTable
                     </div>
                 ";
             })
-            ->rawColumns(['action', 'foto']);
+            ->rawColumns(['action']);
     }
-
 
     /**
      * Get the query source of dataTable.
      */
-    public function query(Buku $model): QueryBuilder
+    public function query(Penerbit $model): QueryBuilder
     {
         return $model->newQuery();
     }
@@ -65,7 +57,7 @@ class BukuDataTables extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('bukudatatables-table')
+                    ->setTableId('penerbit-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')
@@ -89,8 +81,7 @@ class BukuDataTables extends DataTable
         return [
             Column::computed('DT_RowIndex', 'No')->width("10px"),
             Column::make('id')->hidden(),
-            Column::make('buku'),
-            Column::make('foto'),
+            Column::make('name'),
             Column::make('created_at')->hidden(),
             Column::make('updated_at')->hidden(),
             Column::computed('action')
@@ -106,6 +97,6 @@ class BukuDataTables extends DataTable
      */
     protected function filename(): string
     {
-        return 'BukuDataTables_' . date('YmdHis');
+        return 'Penerbit_' . date('YmdHis');
     }
 }

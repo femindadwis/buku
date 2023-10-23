@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\PenerbitDataTable;
 use App\Models\Penerbit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -10,13 +11,12 @@ use Illuminate\Support\Facades\Hash;
 
 class PenerbitController extends Controller
 {
-    public function index()
+    public function index(PenerbitDataTable $dataTable)
     {
-        $data = [
-            "penerbit" => Penerbit::all(),
-        ];
-
-        return view ('penerbit/index', $data);
+        return $dataTable->render('penerbit/index', [
+            'title' => 'List Penerbit',
+            'datatable' => true
+        ]);
     }
 
     public function create()

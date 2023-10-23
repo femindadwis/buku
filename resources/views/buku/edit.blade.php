@@ -15,7 +15,7 @@
                     <h5>Edit Buku</h5>
                     @include('components.flash_message')
                 </div>
-                <form class="form theme-form" action="{{ route('buku_edit', $buku->id) }}" method="post" enctype="multipart/form-data">
+                <form class="form theme-form" action="{{ route('buku.update', $buku->id) }}" method="post" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="card-body">

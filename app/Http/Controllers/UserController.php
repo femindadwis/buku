@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\UserDataTable;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -10,13 +11,12 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(UserDataTable $dataTable)
     {
-        $data = [
-            "user" => User::all(),
-        ];
-
-        return view ('user/index', $data);
+        return $dataTable->render('user/index', [
+            'title' => 'List User',
+            'datatable' => true
+        ]);
     }
 
     public function create()
