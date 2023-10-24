@@ -7,13 +7,13 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
     public function index(UserDataTable $dataTable)
     {
-        return $dataTable->render('user/index', [
+        return $dataTable->render('user.index', [
             'title' => 'List User',
             'datatable' => true
         ]);
@@ -21,7 +21,7 @@ class UserController extends Controller
 
     public function create()
     {
-        return view('user/create');
+        return view('user.create');
 
     }
 
@@ -45,7 +45,7 @@ class UserController extends Controller
 
         User::create($user);
 
-        return redirect('/user/index');
+        return redirect('user');
     }
 
     public function edit($id)
@@ -54,31 +54,48 @@ class UserController extends Controller
             "user" => User::where('id', $id)->get(),
         ];
 
-        return view('user/edit', $data);
+        return view('user.edit', $data);
     }
 
 
     public function update(Request $request)
     {
-        $userData = [
-            'name' => $request->name,
-            'username' => $request->username,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role' => $request->role,
-        ];
+        $user = User::findOrFail($request->id);
+        $request->validate([
+            'name' => ['required'],
+            'email' => ['nullable', 'unique:users,email,' . $request->id],
+            'username' => ['nullable', 'unique:users,username,' . $request->id],
+            'password' => ['nullable'],
+            'role' => ['required'],
+        ]);
 
-        User::where('id', $request->id)->update($userData);
+        try {
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->username = $request->username;
+            $user->role = $request->role;
+            if ($request->password) {
+                $user->password = Hash::make($request->password);
+            }
 
+            $user->save();
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Gagal mengupdate user: ' . $e->getMessage());
+        }
 
-        return redirect('/user/index');
+        return redirect('user');
     }
 
     public function destroy($id)
     {
-        DB::table('users')->where('id',$id)->delete();
+        $user = User::findOrFail($id);
+        try {
+            $user->delete();
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
 
-    return redirect('/user/index');
+    return redirect('user');
     }
 }
 

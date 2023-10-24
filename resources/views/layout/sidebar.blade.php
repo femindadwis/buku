@@ -29,8 +29,8 @@
                     <li class="dropdown">
                         <a class="nav-link menu-title " href="javascript:void(0)"><i data-feather="airplay"></i><span>Data</span></a>
                         <ul class="nav-submenu menu-content"  style="display: none;">
-                            <li><a href="/user/index" class="">Data User</a></li>
-                            <li><a href="/penerbit/index" class="">Penerbit</a></li>
+                            <li><a href="{{ route('user.index') }}" class="">Data User</a></li>
+                            <li><a href="{{ route('penerbit.index') }}" class="">Penerbit</a></li>
 
 
                         </ul>
@@ -39,7 +39,7 @@
 @endif
    @if (Auth::user()->role == 'user')
    <li class="dropdown">
-    <a class="nav-link menu-title link-nav" href="/buku/index"><i data-feather="book"></i><span>Buku</span></a>
+    <a class="nav-link menu-title link-nav" href="{{ route('buku.index') }}"><i data-feather="book"></i><span>Buku</span></a>
 </li>
    @endif
                 </ul>

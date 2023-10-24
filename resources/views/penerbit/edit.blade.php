@@ -14,7 +14,8 @@
                 <div class="card-header pb-0">
                     <h5>Edit Data penerbit</h5>
                 </div>@foreach($penerbit as $p)
-                <form class="form theme-form" action="/penerbit/update " method="post">
+                <form class="form theme-form" action="{{ route('penerbit.update', $p->id) }}" method="post">
+                    @method('PUT')
                     @csrf
                     <div class="card-body">
 

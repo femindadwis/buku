@@ -38,6 +38,7 @@
                                         @foreach ($penerbit as $p)
                                         <option value="{{$p->id}}" >{{$p->name}}</option>
                                         @endforeach
+                                        @include('components.s')
                                     </select>
                                 </div>
                             </div>

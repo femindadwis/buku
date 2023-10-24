@@ -14,7 +14,8 @@
                 <div class="card-header pb-0">
                     <h5>Edit Data User</h5>
                 </div>@foreach($user as $u)
-                <form class="form theme-form" action="/user/update " method="post">
+                <form class="form theme-form" action="{{ route('user.update', $u->id) }}" method="post" enctype="multipart/form-data">
+                    @method('PUT')
                     @csrf
                     <div class="card-body">
 
@@ -50,7 +51,7 @@
                             <div class="col">
                                 <div class="mb-3">
                                     <label class="form-label" for="exampleInputPassword2">Password</label>
-                                    <input class="form-control" id="password" name="password" type="text" placeholder="">
+                                    <input class="form-control @error('password') is-invalid @enderror" id="password" name="password" type="text" placeholder="">
                                 </div>
                             </div>
                         </div>
@@ -59,17 +60,15 @@
                             <div class="col">
                                 <div class="mb-3">
                                     <label class="form-label" for="exampleFormControlSelect9">Role</label>
-                                    <select class="form-select digits" name="role" id="role" value="{{ $u->role }}" placeholder="Role" required="required">
-
-                                        <option value="admin" >Admin </option>
-
-                                        <option value="user" >User </option>
-
-
+                                    <select class="form-select digits" name="role" id="role" placeholder="Role" required="required">
+                                        <option value="admin">Admin</option>
+                                        <option value="user">User</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
+
+                        @include('components.script')
 
                     <div class="card-footer text-end">
                         <button class="btn btn-primary" type="submit">Submit</button>

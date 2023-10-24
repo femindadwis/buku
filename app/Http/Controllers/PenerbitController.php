@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\PenerbitDataTable;
+use App\Models\User;
 use App\Models\Penerbit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -13,7 +14,7 @@ class PenerbitController extends Controller
 {
     public function index(PenerbitDataTable $dataTable)
     {
-        return $dataTable->render('penerbit/index', [
+        return $dataTable->render('penerbit.index', [
             'title' => 'List Penerbit',
             'datatable' => true
         ]);
@@ -21,7 +22,7 @@ class PenerbitController extends Controller
 
     public function create()
     {
-        return view('penerbit/create');
+        return view('penerbit.create');
 
     }
 
@@ -37,36 +38,45 @@ class PenerbitController extends Controller
 
         Penerbit::create($penerbit);
 
-        return redirect('/penerbit/index');
+        return redirect('penerbit');
     }
 
     public function edit($id)
     {
         $data = [
-            "penerbit" => penerbit::where('id', $id)->get(),
+            "penerbit" => Penerbit::where('id', $id)->get(),
         ];
 
-        return view('penerbit/edit', $data);
+        return view('penerbit.edit', $data);
     }
 
 
     public function update(Request $request)
     {
-        $penerbitData = [
-            'name' => $request->name,
-        ];
+        $penerbit = Penerbit::findOrFail($request->id);
+        $request->validate([
+            'name' => ['required'],
+        ]);
+        try {
+            $penerbit->name = $request->name;
 
-        Penerbit::where('id', $request->id)->update($penerbitData);
+            $penerbit->save();
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Gagal mengupdate penerbit: ' . $e->getMessage());
+        }
 
-
-        return redirect('/penerbit/index');
+        return redirect('penerbit');
     }
 
     public function destroy($id)
     {
-        DB::table('penerbit')->where('id',$id)->delete();
-
-    return redirect('/user/index');
+        $penerbit = Penerbit::findOrFail($id);
+        try {
+            $penerbit->delete();
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
+    return redirect('penerbit');
     }
 }
 

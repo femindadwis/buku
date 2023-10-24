@@ -12,7 +12,7 @@
  <div class="col-sm-12">
     <div class="card">
         <div class="card-header">
-            <h5>Tabel User       <a class="fa fa-plus-square-o" href="/user/create" title="Edit"></a>    </h5>
+            <h5>Tabel User       <a class="fa fa-plus-square-o" href="{{ route('user.create') }}" title="Tambah"></a>    </h5>
         </div>
         <div class="card-body"style="padding-top: 5px;">
             <div class="table-responsive">

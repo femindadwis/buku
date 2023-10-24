@@ -12,9 +12,10 @@
  <div class="col-sm-12">
     <div class="card">
         <div class="card-header">
-            <h5>Tabel Penerbit       <a class="fa fa-plus-square-o" href="/penerbit/create" title="Edit"></a>    </h5>
+            <h5>Tabel Penerbit       <a class="fa fa-plus-square-o" href="{{ route('penerbit.create') }}" title="Edit"></a>    </h5>
         </div>
         <div class="card-body"style="padding-top: 5px;">
+            @include('components.flash_message')
             {{ $dataTable->table(['class' => ['table table-bordered dt-responsive nowrap table-striped align-middle'], 'id' => 'example']) }}
         </div>
 

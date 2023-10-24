@@ -16,7 +16,7 @@
                     <h5>Tambah Data Buku</h5>
                     @include('components.flash_message')
                 </div>
-                <form class="form theme-form" action="/buku/store" method="post" enctype="multipart/form-data">
+                <form class="form theme-form" action="{{ route('buku.store') }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="card-body">
 

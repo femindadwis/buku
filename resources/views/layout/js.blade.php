@@ -23,7 +23,7 @@
  <script src="https://laravel.pixelstrap.com/viho/assets/js/sweet-alert/sweetalert.min.js"></script>
  <script src="https://laravel.pixelstrap.com/viho/assets/js/sweet-alert/app.js"></script>
  {{-- table --}}
- 
+
     {{-- date --}}
   <script src="{{ asset('template_dashboard/assets/js/datepicker/date-picker/datepicker.js') }}"></script>
   <script src="{{ asset('template_dashboard/assets/js/datepicker/date-picker/datepicker.en.js') }}"></script>
@@ -34,6 +34,45 @@
   <!-- Theme js-->
   <script src="{{ asset('template_dashboard/assets/js/script.js') }}"></script>
   {{-- <script src="{{ asset('template_dashboard/assets/js/theme-customizer/customizer.js') }}"></script> --}}
-  <!-- Plugin used-->            </body>
+  <!-- Plugin used-->
 
+  {{-- Sweetalert 2 --}}
+  <script src="{{ asset('template_dashboard') }}/assets/js/sweetalert2/sweetalert2.min.js"></script>
+  </body>
+
+<script>
+     $(document).ready(function() {
+            $(document).on('click', '.buttonDeletion', function(e) {
+                e.preventDefault();
+                let form = $(this).parents('form');
+
+                Swal.fire({
+                    title: 'Apakah Anda yakin ingin menghapus data ini?',
+                    text: "Data yang dihapus tidak bisa dikembalikan",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya, Hapus!'
+                }).then((Delete) => {
+                    if (Delete.isConfirmed) {
+                        form.submit()
+                        swal({
+                            title: 'Dikonfirmasi!',
+                            text: 'Data akan dihapus.',
+                            icon: 'success',
+                            buttons: {
+                                confirm: {
+                                    className: 'btn btn-success'
+                                }
+                            }
+                        });
+                    } else {
+                        swal.close();
+                    }
+                });
+            })
+        })
+
+</script>
   </html>

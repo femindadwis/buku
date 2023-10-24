@@ -15,7 +15,7 @@
                 <div class="card-header pb-0">
                     <h5>Tambah Data Penerbit</h5>
                 </div>
-                <form class="form theme-form" action="/penerbit/store" method="post">
+                <form class="form theme-form" action="{{ route('penerbit.store') }}" method="post">
                     @csrf
                     <div class="card-body">
 

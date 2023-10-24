@@ -19,7 +19,7 @@ class BukuController extends Controller
      */
     public function index(BukuDataTables $dataTable){
 
-        return $dataTable->render('buku/index', [
+        return $dataTable->render('buku.index', [
             'title' => 'List Buku',
             'datatable' => true
         ]);
@@ -32,7 +32,7 @@ class BukuController extends Controller
             'buku' =>  Buku::all()
         ];
 
-        return view('buku/create', $data);
+        return view('buku.create', $data);
 
     }
 
@@ -60,7 +60,7 @@ class BukuController extends Controller
             return redirect()->back()->with('error', 'ada error:'. $th->getMessage());
         }
 
-        return redirect('/buku/index');
+        return redirect('buku');
     }
 
     public function edit($id)
@@ -70,7 +70,7 @@ class BukuController extends Controller
             "penerbit" => Penerbit::all(),
         ];
 
-        return view('buku/edit', $data);
+        return view('buku.edit', $data);
     }
 
 
@@ -107,14 +107,18 @@ class BukuController extends Controller
             return redirect()->back()->with('error', 'Ada yang salah'. $e->getMessage());
         }
 
-        return redirect()->back()->with('succes', 'Berhasil menambahkan data');
+        return redirect('buku');
     }
 
     public function destroy($id)
     {
-        DB::table('buku')->where('id',$id)->delete();
-
-    return redirect('/buku/index');
+        $buku = Buku::findOrFail($id);
+        try {
+            $buku->delete();
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
+    return redirect('buku');
     }
 }
 

@@ -12,7 +12,7 @@
  <div class="col-sm-12">
     <div class="card">
         <div class="card-header">
-            <h5>Tabel Buku       <a class="fa fa-plus-square-o" href="/buku/create" title="Edit"></a>    </h5>
+            <h5>Tabel Buku       <a class="fa fa-plus-square-o" href="{{ route('buku.create') }}" title="Edit"></a>    </h5>
             @include('components.flash_message')
         </div>
         <div class="card-body"style="padding-top: 5px;">
