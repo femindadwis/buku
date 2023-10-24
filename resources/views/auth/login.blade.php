@@ -36,8 +36,8 @@
 
 
                   <div class="form-outline mb-4">
-                    <label class="form-label">Email</label>
-                    <input type="email" id="email" name="email" class="form-control" value="{{ old('email') }}" required autocomplete="email" autofocus placeholder="Email" />
+                    <label class="form-label">Username</label>
+                    <input type="username" id="username" name="username" class="form-control" value="{{ old('username') }}" required autocomplete="username" autofocus placeholder="Username" />
 
                   </div>
 
